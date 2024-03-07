@@ -3,6 +3,7 @@ import subprocess
 
 # global variables
 selected_folder_path = ""
+commit_message = "sync"
 
 def select_folder():
     global selected_folder_path
@@ -32,13 +33,27 @@ def verify_git_repo():
     except subprocess.CalledProcessError:
         return "🚫 Not a Git repo"
 
+def set_commit_message():
+    global commit_message
+    try:
+        applescript = '''
+        set commitMessage to text returned of (display dialog "Enter your commit message" default answer "sync")
+        return commitMessage
+        '''
+        commit_message = subprocess.check_output(["osascript", "-e", applescript]).strip().decode('utf-8')
+    except subprocess.CalledProcessError:
+        return "sync"
+
 def sync_changes():
-    global selected_folder_path
+    global selected_folder_path, commit_message
     if not selected_folder_path:
         return "📁 Select a folder first"
     try:
-        commit_message = "sync"
-
+        applescript = '''
+            set commitMessage to text returned of (display dialog "Enter your commit message" default answer "sync")
+            return commitMessage
+        '''
+        commit_message = subprocess.check_output(["osascript", "-e", applescript]).strip().decode('utf-8')
         subprocess.check_call(["git", "-C", selected_folder_path, "fetch"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
@@ -52,7 +67,7 @@ def sync_changes():
 class MenubarApp(rumps.App):
     def __init__(self):
         super(MenubarApp, self).__init__("EasyGit")
-        self.menu = ["Select Folder", "Sync Changes"]
+        self.menu = ["Select Folder", "Sync Changes", "Set Commit Message"]
         self.icon = "icon.png"
         self.folder_path = None
         self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)
@@ -67,6 +82,11 @@ class MenubarApp(rumps.App):
             self.auto_verify_repo(None)
         else:
             self.menu['Select Folder'].title = f"Select Folder"
+
+
+    @rumps.clicked("Set Commit Message")
+    def set_commit_message(self, _):
+        set_commit_message()
 
     def check_status(self, _):
         status = verify_git_repo()
