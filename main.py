@@ -21,7 +21,7 @@ def select_folder():
 def verify_git_repo():
     global selected_folder_path
     if not selected_folder_path:
-        return "📁 Select a folder first"
+        return "Select a folder first"
     try:
         result = subprocess.run(["git", "-C", selected_folder_path, "status", "--porcelain"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         changes = result.stdout.decode().strip().split('\n') if result.stdout.decode().strip() else []
