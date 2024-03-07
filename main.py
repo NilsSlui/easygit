@@ -33,16 +33,6 @@ def verify_git_repo():
     except subprocess.CalledProcessError:
         return "🚫 Not a Git repo"
 
-def set_commit_message():
-    global commit_message
-    try:
-        applescript = '''
-        set commitMessage to text returned of (display dialog "Enter your commit message" default answer "sync")
-        return commitMessage
-        '''
-        commit_message = subprocess.check_output(["osascript", "-e", applescript]).strip().decode('utf-8')
-    except subprocess.CalledProcessError:
-        return "sync"
 
 def sync_changes():
     global selected_folder_path, commit_message
@@ -67,7 +57,7 @@ def sync_changes():
 class MenubarApp(rumps.App):
     def __init__(self):
         super(MenubarApp, self).__init__("EasyGit")
-        self.menu = ["Select Folder", "Sync Changes", "Set Commit Message"]
+        self.menu = ["Select Folder", "Sync Changes"]
         self.icon = "icon.png"
         self.folder_path = None
         self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)
@@ -82,11 +72,6 @@ class MenubarApp(rumps.App):
             self.auto_verify_repo(None)
         else:
             self.menu['Select Folder'].title = f"Select Folder"
-
-
-    @rumps.clicked("Set Commit Message")
-    def set_commit_message(self, _):
-        set_commit_message()
 
     def check_status(self, _):
         status = verify_git_repo()
