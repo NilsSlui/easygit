@@ -63,7 +63,7 @@ class MenubarApp(rumps.App):
         self.menu = ["Select Folder", "Sync Changes"]
         self.icon = "icon.png"
         self.folder_path = None
-        self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)  # Run every 60 seconds
+        self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)
         self.verify_timer.start()
 
     @rumps.clicked("Select Folder")
