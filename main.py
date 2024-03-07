@@ -26,7 +26,7 @@ def verify_git_repo():
         result = subprocess.run(["git", "-C", selected_folder_path, "status", "--porcelain"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         changes = result.stdout.decode().strip().split('\n') if result.stdout.decode().strip() else []
         if changes:
-            return f"🔄 Sync Changes ({len(changes)})"
+            return f"🔴 Sync Changes ({len(changes)})"
         else:
             return "No changes detected"
     except subprocess.CalledProcessError:
@@ -62,7 +62,7 @@ class MenubarApp(rumps.App):
         global selected_folder_path
         success = select_folder()
         if success:
-            self.menu['Select Folder'].title = f"Selected: {selected_folder_path}"
+            self.menu['Select Folder'].title = f"{selected_folder_path}"
             self.auto_verify_repo(None)  # Immediately verify upon selection
         else:
             self.menu['Select Folder'].title = f"Select Folder"
