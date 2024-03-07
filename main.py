@@ -26,7 +26,7 @@ def verify_git_repo():
         result = subprocess.run(["git", "-C", selected_folder_path, "status", "--porcelain"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         changes = result.stdout.decode().strip().split('\n') if result.stdout.decode().strip() else []
         if changes:
-            return f"Changes detected ({len(changes)})"
+            return f"🔄 Sync Changes ({len(changes)})"
         else:
             return "No changes detected"
     except subprocess.CalledProcessError:
@@ -51,7 +51,7 @@ def sync_changes():
 class MenubarApp(rumps.App):
     def __init__(self):
         super(MenubarApp, self).__init__("EasyGit")
-        self.menu = ["Select Folder", "Verify Git Repo", "Sync Changes"]
+        self.menu = ["Select Folder", "Sync Changes"]
         self.icon = "icon.png"
         self.folder_path = None
         self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)  # Run every 60 seconds
@@ -66,10 +66,9 @@ class MenubarApp(rumps.App):
         else:
             self.menu['Select Folder'].title = f"Select Folder"
 
-    @rumps.clicked("Verify Git Repo")
     def check_status(self, _):
         status = verify_git_repo()
-        self.menu['Verify Git Repo'].title = status
+        self.menu['Sync Changes'].title = status
 
     @rumps.clicked("Sync Changes")
     def sync(self, _):
@@ -78,7 +77,7 @@ class MenubarApp(rumps.App):
 
     def auto_verify_repo(self, sender):
         status = verify_git_repo()
-        self.menu['Verify Git Repo'].title = status
+        self.menu['Sync Changes'].title = status
 
 if __name__ == "__main__":
     MenubarApp().run()
