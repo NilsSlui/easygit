@@ -72,7 +72,12 @@ class MenubarApp(rumps.App):
         global selected_folder_path
         success = select_folder()
         if success:
-            self.menu['Select Folder'].title = f"{selected_folder_path}"
+            # get git branch name
+            try:
+                branch = subprocess.check_output(["git", "-C", selected_folder_path, "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode('utf-8')
+                self.menu['Select Folder'].title = f"{selected_folder_path} [{branch}]"
+            except subprocess.CalledProcessError:
+                self.menu['Select Folder'].title = f"{selected_folder_path}"
             self.auto_verify_repo(None)
         else:
             self.menu['Select Folder'].title = f"Select Folder"
