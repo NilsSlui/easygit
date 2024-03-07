@@ -4,7 +4,7 @@
 
 ## Overview
 
-EasyGit is a lightweight menubar application designed to bring basic git repository management to the macOS menu bar. It offers a simple interface for selecting a git repository folder, monitoring its status, and synchronizing changes with the remote repository.
+This is a lightweight menubar application designed to bring basic git repository management to the macOS menu bar. It offers a simple interface for selecting a git repository folder, monitoring its status, and synchronizing changes with the remote repository.
 
 ## Features
 
