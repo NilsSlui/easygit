@@ -32,25 +32,15 @@ def verify_git_repo():
     except subprocess.CalledProcessError:
         return "🚫 Not a Git repo"
 
-def sync_changes():
+def sync_changes(commit_message):
     global selected_folder_path
     if not selected_folder_path:
         return "📁 Select a folder first"
     try:
-        # Prompt for commit message
-        commit_message = rumps.Window(title="Commit Message",
-                                      message="Enter the commit message:",
-                                      default_text="Sync changes",
-                                      ok="Commit",
-                                      cancel="Cancel").run()
-
-        if not commit_message.clicked:
-            return "✖️ Sync cancelled"
-
         subprocess.check_call(["git", "-C", selected_folder_path, "fetch"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
-        subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message.text], stderr=subprocess.STDOUT)
+        subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message], stderr=subprocess.STDOUT)
 
         subprocess.check_call(["git", "-C", selected_folder_path, "push"], stderr=subprocess.STDOUT)
         return "✅ Sync Changes"
@@ -60,7 +50,7 @@ def sync_changes():
 class MenubarApp(rumps.App):
     def __init__(self):
         super(MenubarApp, self).__init__("EasyGit")
-        self.menu = ["Select Folder", "Sync Changes"]
+        self.menu = ["Select Folder", "Sync Changes", "Enter Commit Message..."]
         self.icon = "icon.png"
         self.folder_path = None
         self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)
@@ -76,14 +66,28 @@ class MenubarApp(rumps.App):
         else:
             self.menu['Select Folder'].title = f"Select Folder"
 
+    @rumps.clicked("Sync Changes")
+    def sync(self, _):
+        # Since direct input is not supported, we initiate sync here if commit message is already set.
+        commit_message = rumps.Window(title="Commit Message Required",
+                                      message="Please enter the commit message via 'Enter Commit Message...' menu option first.",
+                                      ok=None).run()
+        # Placeholder for sync logic if commit message is already set.
+        # sync_status = sync_changes(commit_message)
+        # self.menu['Sync Changes'].title = sync_status
+
+    @rumps.clicked("Enter Commit Message...")
+    def enter_commit_message(self, _):
+        commit_message = rumps.Window(title="Enter Commit Message",
+                                      message="Enter the commit message for your changes:",
+                                      default_text="").run()
+        if commit_message.clicked:
+            sync_status = sync_changes(commit_message.text)
+            rumps.alert(title="Sync Status", message=sync_status)
+
     def check_status(self, _):
         status = verify_git_repo()
         self.menu['Sync Changes'].title = status
-
-    @rumps.clicked("Sync Changes")
-    def sync(self, _):
-        sync_status = sync_changes()
-        self.menu['Sync Changes'].title = sync_status
 
     def auto_verify_repo(self, sender):
         status = verify_git_repo()
