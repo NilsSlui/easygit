@@ -4,7 +4,7 @@
 
 ## Overview
 
-This application was created the bring the "Sync Changes 🔄" functionality from Visual Studio Code to the Menu Bar so that it can be used while working in other code editors or enviroments. 
+This application was created the bring the "Sync Changes 🔄" functionality from Visual Studio Code to the Menu Bar so that it can be used while working in other code editors or enviroments. It is a single python script that runs in the background and all output is delivered to the console. The menubar icon is visible as long as the python script is running. To get started simply run main.py. 
 
 ## Features
 
