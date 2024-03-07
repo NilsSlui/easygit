@@ -59,7 +59,7 @@ def sync_changes():
 class MenubarApp(rumps.App):
     def __init__(self):
         super(MenubarApp, self).__init__("EasyGit")
-        self.menu = ["Select Folder", "Sync Changes"]
+        self.menu = ["Select Folder", "Sync Changes", "Git Pull"]
         self.icon = "icon.png"
         self.folder_path = None
         self.verify_timer = rumps.Timer(self.auto_verify_repo, 5)
@@ -79,6 +79,18 @@ class MenubarApp(rumps.App):
             self.auto_verify_repo(None)
         else:
             self.menu['Select Folder'].title = f"Select Folder"
+
+    @rumps.clicked("Git Pull")
+    def git_pull(self, _):
+        global selected_folder_path
+        if not selected_folder_path:
+            return
+        try:
+            subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
+            return  "✅ Git Pull"
+        except subprocess.CalledProcessError:
+             return "🚫 Sync Changes"
+        self.auto_verify_repo(None)
 
     def check_status(self, _):
         status = verify_git_repo()
