@@ -36,7 +36,7 @@ def verify_git_repo():
 def sync_changes():
     global selected_folder_path
     if not selected_folder_path:
-        return "📁 Select a folder first"
+        return "Select a folder first"
     try:
         changes = subprocess.check_output(["git", "-C", selected_folder_path, "status", "--porcelain"]).strip().decode('utf-8')
         applescript = '''
