@@ -38,8 +38,9 @@ def sync_changes():
     if not selected_folder_path:
         return "📁 Select a folder first"
     try:
+        changes = subprocess.check_output(["git", "-C", selected_folder_path, "status", "--porcelain"]).strip().decode('utf-8')
         applescript = '''
-            set commitMessage to text returned of (display dialog "Enter your commit message" default answer "sync")
+            set commitMessage to text returned of (display dialog "Commit message:" default answer "sync")
             return commitMessage
         '''
         commit_message = subprocess.check_output(["osascript", "-e", applescript]).strip().decode('utf-8')
