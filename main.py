@@ -45,6 +45,7 @@ def sync_changes():
         commit_message = subprocess.check_output(["osascript", "-e", applescript]).strip().decode('utf-8')
         if not commit_message:
             commit_message = "sync"
+
         subprocess.check_call(["git", "-C", selected_folder_path, "fetch"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
