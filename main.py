@@ -1,5 +1,6 @@
 import rumps
 import subprocess
+from rumps.notifications import Notification
 
 # global variables
 selected_folder_path = ""
@@ -53,8 +54,11 @@ def sync_changes():
 
         subprocess.check_call(["git", "-C", selected_folder_path, "push"], stderr=subprocess.STDOUT)
         return "✅ Sync Changes"
+        Notification("Good", "Synced changes").send()
     except subprocess.CalledProcessError:
+        Notification("Error", "Failed to sync changes").send()
         return "🚫 Sync Changes"
+
 
 class MenubarApp(rumps.App):
     def __init__(self):
