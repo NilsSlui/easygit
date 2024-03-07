@@ -1,7 +1,6 @@
 import rumps
 import subprocess
 
-# global variables
 selected_folder_path = ""
 
 def select_folder():
@@ -51,7 +50,6 @@ def sync_changes():
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message], stderr=subprocess.STDOUT)
-
         subprocess.check_call(["git", "-C", selected_folder_path, "push"], stderr=subprocess.STDOUT)
         return "✅ Sync Changes"
     except subprocess.CalledProcessError:
