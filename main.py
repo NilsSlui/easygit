@@ -37,20 +37,12 @@ def sync_changes():
     if not selected_folder_path:
         return "📁 Select a folder first"
     try:
-        # Prompt for commit message
-        commit_message = rumps.Window(title="Commit Message",
-                                      message="Enter the commit message:",
-                                      default_text="Sync changes",
-                                      ok="Commit",
-                                      cancel="Cancel").run()
-
-        if not commit_message.clicked:
-            return "✖️ Sync cancelled"
+        commit_message = "sync"
 
         subprocess.check_call(["git", "-C", selected_folder_path, "fetch"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
-        subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message.text], stderr=subprocess.STDOUT)
+        subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message], stderr=subprocess.STDOUT)
 
         subprocess.check_call(["git", "-C", selected_folder_path, "push"], stderr=subprocess.STDOUT)
         return "✅ Sync Changes"
