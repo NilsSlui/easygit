@@ -26,7 +26,7 @@ def verify_git_repo():
         result = subprocess.run(["git", "-C", selected_folder_path, "status", "--porcelain"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         changes = result.stdout.decode().strip().split('\n') if result.stdout.decode().strip() else []
         if changes:
-            return f"🔴 Sync Changes ({len(changes)})"
+            return f"🟢 Sync Changes ({len(changes)})"
         else:
             return "No changes detected"
     except subprocess.CalledProcessError:
@@ -37,11 +37,20 @@ def sync_changes():
     if not selected_folder_path:
         return "📁 Select a folder first"
     try:
-        commit_message = "Sync changes"
+        # Prompt for commit message
+        commit_message = rumps.Window(title="Commit Message",
+                                      message="Enter the commit message:",
+                                      default_text="Sync changes",
+                                      ok="Commit",
+                                      cancel="Cancel").run()
+
+        if not commit_message.clicked:
+            return "✖️ Sync cancelled"
+
         subprocess.check_call(["git", "-C", selected_folder_path, "fetch"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
-        subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message], stderr=subprocess.STDOUT)
+        subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message.text], stderr=subprocess.STDOUT)
 
         subprocess.check_call(["git", "-C", selected_folder_path, "push"], stderr=subprocess.STDOUT)
         return "✅ Sync Changes"
