@@ -59,9 +59,10 @@ class MenubarApp(rumps.App):
 
     @rumps.clicked("Select Folder")
     def select_folder(self, _):
+        global selected_folder_path
         success = select_folder()
         if success:
-            self.menu['Select Folder'].title = f"Folder Selected"
+            self.menu['Select Folder'].title = f"Selected: {selected_folder_path}"
             self.auto_verify_repo(None)  # Immediately verify upon selection
         else:
             self.menu['Select Folder'].title = f"Select Folder"
