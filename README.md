@@ -1,10 +1,10 @@
-# A Simple Menubar Application for Git Management
+# A Tiny Menubar Application for Git Synchronization
 
 ![Demo of App](https://github.com/NilsSlui/easygit/blob/main/demo.gif?raw=true)
 
 ## Overview
 
-This is a tony menubar application designed to bring very basic git repository interactivity to the macOS menu bar. It offers a simple interface for selecting a git repository folder, monitoring its status, and synchronizing changes with the remote repository.
+This application was created the bring the "Sync Changes 🔄" functionality from Visual Studio Code to the Menu Bar so that it can be used while working in other code editors or enviroments. 
 
 ## Features
 
