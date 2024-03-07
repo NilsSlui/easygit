@@ -1,4 +1,4 @@
-# EasyGit - A Simple Menubar Application for Git Management
+# A Simple Menubar Application for Git Management
 
 ![Demo of App](https://github.com/NilsSlui/easygit/blob/main/demo.gif?raw=true)
 
