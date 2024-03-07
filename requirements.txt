@@ -1,1 +1,8 @@
-rumps
+numpy @ file:///private/tmp/numpy-20240108-5731-uciys2/numpy-1.26.3
+openvino @ file:///private/tmp/openvino-20240120-6451-2ye6ih/openvino-2023.3.0/src/bindings/python/wheel
+pyobjc-core==10.1
+pyobjc-framework-Cocoa==10.1
+rumps==0.4.0
+setuptools @ file:///private/tmp/python-setuptools-20240223-4585-1z5qt4/setuptools-69.1.1
+TBB @ file:///private/tmp/tbb-20231202-5067-9guvre/oneTBB-2021.11.0/python
+wheel @ file:///opt/homebrew/Cellar/python%403.12/3.12.2_1/libexec/wheel-0.42.0-py3-none-any.whl#sha256=5f1ca525bef7466225922019d72cb06a9e91cd3ff807ddd4be1acb84655e5107
