@@ -2,7 +2,7 @@
 
 ## Overview
 
-EasyGit is a lightweight menubar application designed to streamline the git management process directly from your macOS menu bar. This application facilitates the selection of a git repository folder, the verification of git status, and the synchronization of changes with the remote repository, all through an intuitive graphical interface. It leverages macOS's native AppleScript and Git commands to perform these actions efficiently.
+EasyGit is a lightweight menubar application designed to bring basic git repository management to the macOS menu bar. It offers a simple interface for selecting a git repository folder, monitoring its status, and synchronizing changes with the remote repository.
 
 ## Features
 
@@ -20,12 +20,14 @@ EasyGit is a lightweight menubar application designed to streamline the git mana
 
 ## Installation and Usage
 
-To use EasyGit, ensure you have Git installed and accessible via your terminal. Download the script and run it on your macOS device. The application icon will appear in your menu bar, offering quick access to its features.
+To use EasyGit, ensure you have Git installed and accessible via your terminal. Clone this repository and run the following commands to install the required dependencies and start the application using 'python main.py'.
 
 ## Dependencies
 
 - **macOS:** Since EasyGit utilizes AppleScript for dialogues and folder selection, it is currently only compatible with macOS.
 - **Git:** A working Git installation is required for the application to manage repositories.
+- **Python 3:** The application is written in Python 3.11 and requires it to be installed on your system.
+- **Rumps Library:** EasyGit uses the Rumps library to create the menubar application. Install it using 'pip install rumps'.
 
 ## Disclaimer
 
