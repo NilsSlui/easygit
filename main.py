@@ -3,7 +3,6 @@ import subprocess
 
 # global variables
 selected_folder_path = ""
-commit_message = "sync"
 
 def select_folder():
     global selected_folder_path
@@ -35,7 +34,7 @@ def verify_git_repo():
 
 
 def sync_changes():
-    global selected_folder_path, commit_message
+    global selected_folder_path
     if not selected_folder_path:
         return "📁 Select a folder first"
     try:
@@ -44,6 +43,8 @@ def sync_changes():
             return commitMessage
         '''
         commit_message = subprocess.check_output(["osascript", "-e", applescript]).strip().decode('utf-8')
+        if not commit_message:
+            commit_message = "sync"
         subprocess.check_call(["git", "-C", selected_folder_path, "fetch"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "pull"], stderr=subprocess.STDOUT)
         subprocess.check_call(["git", "-C", selected_folder_path, "add", "."], stderr=subprocess.STDOUT)
