@@ -52,10 +52,8 @@ def sync_changes():
         subprocess.check_call(["git", "-C", selected_folder_path, "commit", "-m", commit_message], stderr=subprocess.STDOUT)
 
         subprocess.check_call(["git", "-C", selected_folder_path, "push"], stderr=subprocess.STDOUT)
-        rumps.notification("title", "subtitle", "message", data=None, sound=True)
         return "✅ Sync Changes"
     except subprocess.CalledProcessError:
-        rumps.notification("title", "subtitle", "message", data=None, sound=True)
         return "🚫 Sync Changes"
 
 
